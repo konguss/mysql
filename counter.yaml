@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: counter
+  name: counter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: counter
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: counter
+    spec:
+      containers:
+      - image: kongusuresh/nodejs
+        name: nodejs
+        env:
+        - name: db_password 
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mysql-password
+        - name: db_user 
+          value: admin 
+        - name: db_name 
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mysql-db-name
+        - name: db_host
+          value: mysql 
+        resources: {}
+status: {}
